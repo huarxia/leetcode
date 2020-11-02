@@ -9,34 +9,40 @@
  * @param {string} s
  * @return {string}
  */
-var longestPalindrome = function(s) {
-    if (s === "") {
-        return "";
+let longestPalindrome = function(s) {
+    // 如果s是空则返回空字符串
+    if (!s || s.length === 0) {
+        return '';
     }
-    let cell = [], maxLen = 0, maxEnd = 0;
-    for (let i = 0; i < s.length; i++) {
-        cell.push([]);
-        for (let j = 0; j < s.length; j++) {
-            let beforeIndex = s.length - 1 - i;
-            if (s[beforeIndex] === s[j]) {
-                if (i === 0 || j === 0) {
-                    cell[i][j] = 1;
-                } else {
-                    cell[i][j] = cell[i - 1][j - 1] + 1;
-                }
-            } else {
-                cell[i][j] = 0; // 不能省略，用于「占坑」
-            }
-            if (cell[i][j] > maxLen) {
-                let firstIndex = j - cell[i][j] + 1;
-                if (beforeIndex === firstIndex) {
-                    maxLen = cell[i][j];
-                    maxEnd = j;
+    const palindromeArr = [s[0]];
+    const len = s.length;
+    // 第一步找出全部回文字符串，并储存起来
+    for (let i = 0; i < len; i++) {
+        for (let j = i + 1; j < len; j++) {
+            if (s[i] === s[j]) {
+                const result = isPalindrome(s.substring(i, j + 1));
+                if (result) {
+                    palindromeArr.push(s.substring(i, j + 1));
                 }
             }
         }
     }
-    return s.slice(maxEnd + 1 - maxLen, maxEnd + 1)
+    // 取出最大长度即为最大回文字符串
+    let maxLen = palindromeArr[0].length;
+    let result = palindromeArr[0];
+    palindromeArr.forEach(item => {
+        if (item.length > maxLen) {
+            maxLen = item.length;
+            result = item;
+        } 
+    });
+    return result;
 };
+
+const isPalindrome = (str) =>{
+    let first = str;
+    let last = str.split('').reverse().join('');
+    return first === last;
+}
 // @lc code=end
 
