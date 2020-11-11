@@ -28,7 +28,7 @@ var threeSum = function(nums) {
         while (j < k) {
             const sum = nums[i] + nums[j] + nums[k];
             if (sum === 0) {
-                res.push([ nums[i], nums[j], nums[k]]);
+                res.push([nums[i], nums[j], nums[k]]);
                 j++;
                 // 如果有相同的则跳过
                 while (nums[j - 1] === nums[j]) {
